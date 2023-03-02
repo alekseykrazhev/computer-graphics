@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Color Converter</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Send POST Request on every change -->
+    <script>
+		document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById("color-picker");
+            input.addEventListener('change', function() {
+            fetch('/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					inputData: input.value,
+                    editedElement: event.target.id
+					})
+				})
+				.then(() => {
+					location.reload();
+				})
+				.catch(error => {
+					console.error(error);
+				});
+            });
+            const formInputs = document.querySelectorAll('form input');
+            for (let i = 0; i < formInputs.length; i++) {
+                formInputs[i].addEventListener('change', function () {
+                    fetch('/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            formData: getFormData(),
+                            editedElement: event.target.id
+                        })
+                    })
+                        .then(() => {
+                            location.reload();
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                });
+            }
+		});
+		function getFormData() {
+            const formData = {};
+            const formInputs = document.querySelectorAll('form input');
+            for (let i = 0; i < formInputs.length; i++) {
+				formData[formInputs[i].name] = formInputs[i].value;
+			}
+			return formData;
+		}
+	</script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>Color Converter</h1>
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <h2>Select a color:</h2>
+                <input type="color" id="color-picker" class="form-control" name="color" value={{ color }}>
+            </div>
+            <div class="col-md-6">
+                <h2>CMYK</h2>
+
+                <!-- CMYK Form -->
+                <form id="cmyk">
+                    <div class="form-group">
+                        <label for="cmyk_c">C</label>
+                        <input type="text" class="form-control" id="cmyk_c" placeholder="Enter c" name="cmyk_c" value={{ cmyk[0] }}>
+                        <input type="range" min="0" max="100" step="1" class="form-control-range" id="cmyk_c1" name="cmyk_c1" value={{ cmyk[0] }}>
+                    </div>
+                    <div class="form-group">
+                        <label for="cmyk_m">M</label>
+                        <input type="text" class="form-control" id="cmyk_m" placeholder="Enter m" name="cmyk_m" value={{ cmyk[1] }}>
+                        <input type="range" min="0" max="100" step="1" class="form-control-range" id="cmyk_m1" name="cmyk_m1" value={{ cmyk[1] }}>
+                    </div>
+                    <div class="form-group">
+                        <label for="cmyk_y">Y</label>
+                        <input type="text" class="form-control" id="cmyk_y" placeholder="Enter y" name="cmyk_y" value={{ cmyk[2] }}>
+                        <input type="range" min="0" max="100" step="1" class="form-control-range" id="cmyk_y1" name="cmyk_y1" value={{ cmyk[2] }}>
+                    </div>
+                    <div class="form-group">
+                        <label for="cmyk_k">K</label>
+                        <input type="text" class="form-control" id="cmyk_k" placeholder="Enter k" name="cmyk_k" value={{ cmyk[3] }}>
+                        <input type="range" min="0" max="100" step="1" class="form-control-range" id="cmyk_k1" name="cmyk_k1" value={{ cmyk[3] }}>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <h2>LAB</h2>
+
+                <!-- LAB Form -->
+                <form id="lab">
+                    <div class="form-group">
+                        <label for="lab_l">L</label>
+                        <input type="text" class="form-control" id="lab_l" placeholder="Enter L" name="lab_l" value={{ lab[0] }}>
+                        <input type="range" min="0" max="100" step="1" class="form-control-range" id="lab_l1" name="lab_l1" value={{ lab[0] }}>
+                    </div>
+                    <div class="form-group">
+                        <label for="lab_a">A</label>
+                        <input type="text" class="form-control" id="lab_a" placeholder="Enter A" name="lab_a" value={{ lab[1] }}>
+                        <input type="range" min="-128" max="127" step="1" class="form-control-range" id="lab_a1" name="lab_a1" value={{ lab[1] }}>
+                    </div>
+                    <div class="form-group">
+                        <label for="lab_b">B</label>
+                        <input type="text" class="form-control" id="lab_b" placeholder="Enter B" name="lab_b" value={{ lab[2] }}>
+                        <input type="range" min="-128" max="127" step="1" class="form-control-range" id="lab_b1" name="lab_b1" value={{ lab[2] }}>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <h2>XYZ</h2>
+
+                <!-- XYZ Form -->
+                <form id="xyz">
+                    <div class="form-group">
+                        <label for="xyz_x">X</label>
+                        <input type="text" class="form-control" id="xyz_x" name="xyz_x" placeholder="Enter X" value={{ xyz[0] }}>
+                        <input type="range" min="0" max="100" step="1" class="form-control-range" id="xyz_x1" name="xyz_x1" value={{ xyz[0] }}>
+                    </div>
+                    <div class="form-group">
+                        <label for="xyz_y">Y</label>
+                        <input type="text" class="form-control" id="xyz_y" placeholder="Enter Y" name="xyz_y" value={{ xyz[1] }}>
+                        <input type="range" min="0" max="100" step="1" class="form-control-range" id="xyz_y1" name="xyz_y1" value={{ xyz[1] }}>
+                    </div>
+                    <div class="form-group">
+                        <label for="xyz_z">Z</label>
+                        <input type="text" class="form-control" id="xyz_z" placeholder="Enter Z" name="xyz_z" value={{ xyz[2] }}>
+                        <input type="range" min="0" max="100" step="1" class="form-control-range" id="xyz_z1" name="xyz_z1" value={{ xyz[2] }}>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
