@@ -68,6 +68,12 @@
                 <h2>Select a color:</h2>
                 <input type="color" id="color-picker" class="form-control" name="color" value={{ color }}>
             </div>
+            <div class="error-message">
+                <h2>Out of borders errors:</h2>
+            {% for change in changes %}
+                <p>{{ change }}</p>
+            {% endfor %}
+            </div>
             <div class="col-md-6">
                 <h2>CMYK</h2>
 
@@ -127,7 +133,7 @@
                     <div class="form-group">
                         <label for="xyz_x">X</label>
                         <input type="text" class="form-control" id="xyz_x" name="xyz_x" placeholder="Enter X" value={{ xyz[0] }}>
-                        <input type="range" min="0" max="100" step="1" class="form-control-range" id="xyz_x1" name="xyz_x1" value={{ xyz[0] }}>
+                        <input type="range" min="0" max="95.047" step="1" class="form-control-range" id="xyz_x1" name="xyz_x1" value={{ xyz[0] }}>
                     </div>
                     <div class="form-group">
                         <label for="xyz_y">Y</label>
@@ -137,7 +143,7 @@
                     <div class="form-group">
                         <label for="xyz_z">Z</label>
                         <input type="text" class="form-control" id="xyz_z" placeholder="Enter Z" name="xyz_z" value={{ xyz[2] }}>
-                        <input type="range" min="0" max="100" step="1" class="form-control-range" id="xyz_z1" name="xyz_z1" value={{ xyz[2] }}>
+                        <input type="range" min="0" max="108.883" step="1" class="form-control-range" id="xyz_z1" name="xyz_z1" value={{ xyz[2] }}>
                     </div>
                 </form>
             </div>
@@ -148,5 +154,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyAOWfUDtHE8-dMypXTKTLzaKi10hmSQ-W8",
+          authDomain: "color-converter-29d5c.firebaseapp.com",
+          projectId: "color-converter-29d5c",
+          storageBucket: "color-converter-29d5c.appspot.com",
+          messagingSenderId: "689581819569",
+          appId: "1:689581819569:web:7ccd65b5105201d3a80490"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+      </script>
 </body>
 </html>

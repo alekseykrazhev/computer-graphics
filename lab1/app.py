@@ -11,6 +11,82 @@ white = [95.047, 100.0, 108.883]
 logging.basicConfig(filename='backend.log', level=logging.DEBUG)
 
 
+def check_model(code: list, model: str):
+    res = code
+    if model == 'cmyk':
+        changed = False
+        for i in range(len(res)):
+            if res[i] > 100:
+                res[i] = 100
+                changed = True
+
+        for i in range(len(res)):
+            if res[i] < 100:
+                res[i] = 0
+                changed = True
+
+        return res, changed
+
+    if model == 'xyz':
+        changed = False
+        if res[0] > 95.047:
+            res[0] = 95.047
+            changed = True
+        if res[1] > 100:
+            res[1] = 100
+            changed = True
+        if res[2] > 108.883:
+            res[2] = 108.883
+            changed = True
+
+        for i in range(len(res)):
+            if res[i] < 0:
+                res[i] = 0
+                changed = True
+
+        return res, changed
+
+    if model == 'lab':
+        changed = False
+        if res[0] > 100:
+            res[0] = 100
+            changed = True
+        if res[1] > 127:
+            res[1] = 127
+            changed = True
+        if res[2] > 127:
+            res[2] = 127
+            changed = True
+
+        if res[0] < 0:
+            res[0] = 0
+            changed = True
+        if res[1] < -128:
+            res[1] = -128
+            changed = True
+        if res[2] < -128:
+            res[2] = -128
+            changed = True
+
+        return res, changed
+
+    if model == 'rgb':
+        changed = False
+        for i in range(len(res)):
+            if res[i] > 255:
+                res[i] = 255
+                changed = True
+
+        for i in range(len(res)):
+            if res[i] < 0:
+                res[i] = 0
+                changed = True
+
+        return res, changed
+
+    return res, False
+
+
 def lab_helper(x):
     res = 0
     if x >= 0.008856:
@@ -194,6 +270,7 @@ cmyk = [100, 0, 0, 0]
 lab = [91.116521109, -48.079618466, -14.138127755]
 xyz = [53.8, 78.7, 107]
 color = [0, 255, 255]
+changed_colors = []
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -202,8 +279,10 @@ def index():
     global lab
     global xyz
     global color
+    global changed_colors
 
     if request.method == 'POST':
+        changed_colors = []
         logging.debug('POST request spotted.')
         res = request.get_json()
         edited_element = res['editedElement']
@@ -217,6 +296,18 @@ def index():
             cmyk = all_to_cmyk(color.copy(), 'rgb')
             lab = all_to_lab(color.copy(), 'rgb')
             xyz = all_to_xyz(color.copy(), 'rgb')
+
+            cmyk, cmyk_changed = check_model(cmyk.copy(), 'cmyk')
+            lab, lab_changed = check_model(lab.copy(), 'lab')
+            xyz, xyz_changed = check_model(xyz.copy(), 'xyz')
+
+            if cmyk_changed:
+                changed_colors.append('CMYK out of borders.')
+            if lab_changed:
+                changed_colors.append('LAB out of borders.')
+            if xyz_changed:
+                changed_colors.append('XYZ out of borders.')
+
             logging.debug(f'New RGB color: {str(color)}')
 
         if 'cmyk' in edited_element:
@@ -236,6 +327,18 @@ def index():
             color = all_to_rgb(cmyk1.copy(), 'cmyk')
             lab = all_to_lab(cmyk1.copy(), 'cmyk')
             xyz = all_to_xyz(cmyk1.copy(), 'cmyk')
+
+            color, color_changed = check_model(color.copy(), 'rgb')
+            lab, lab_changed = check_model(lab.copy(), 'lab')
+            xyz, xyz_changed = check_model(xyz.copy(), 'xyz')
+
+            if color_changed:
+                changed_colors.append('RGB out of borders.')
+            if lab_changed:
+                changed_colors.append('LAB out of borders.')
+            if xyz_changed:
+                changed_colors.append('XYZ out of borders.')
+
             logging.debug(f'New RGB color: {str(color)}')
 
         if 'lab' in edited_element:
@@ -249,6 +352,17 @@ def index():
             xyz = all_to_xyz(lab.copy(), 'lab')
             color = all_to_rgb(lab.copy(), 'lab')
 
+            cmyk, cmyk_changed = check_model(cmyk.copy(), 'cmyk')
+            color, color_changed = check_model(color.copy(), 'rgb')
+            xyz, xyz_changed = check_model(xyz.copy(), 'xyz')
+
+            if cmyk_changed:
+                changed_colors.append('CMYK out of borders.')
+            if color_changed:
+                changed_colors.append('RGB out of borders.')
+            if xyz_changed:
+                changed_colors.append('XYZ out of borders.')
+
         if 'xyz' in edited_element:
             if '1' in edited_element:
                 xyz = [res['formData']['xyz_x1'], res['formData']['xyz_y1'], res['formData']['xyz_z1']]
@@ -259,16 +373,30 @@ def index():
             cmyk = all_to_cmyk(xyz.copy(), 'xyz')
             lab = all_to_lab(xyz.copy(), 'xyz')
             color = all_to_rgb(xyz.copy(), 'xyz')
+
+            cmyk, cmyk_changed = check_model(cmyk.copy(), 'cmyk')
+            lab, lab_changed = check_model(lab.copy(), 'lab')
+            color, color_changed = check_model(color.copy(), 'rgb')
+
+            if cmyk_changed:
+                changed_colors.append('CMYK out of borders.')
+            if lab_changed:
+                changed_colors.append('LAB out of borders.')
+            if color_changed:
+                changed_colors.append('RGB out of borders.')
+            # changed_colors.append('ERROR')
+            logging.debug(f'ERRORS: {changed_colors}')
+
             logging.debug(f'New RGB color: {str(color)}')
 
         return render_template('index.html', color="#{:02x}{:02x}{:02x}".format(int(color[0]), int(color[1])
-                                                                                , int(color[2])), cmyk=cmyk,
-                               lab=lab, xyz=xyz), 200
+                                                                                , int(color[2]))
+                               , changes=changed_colors, cmyk=cmyk, lab=lab, xyz=xyz), 200
 
     if request.method == 'GET':
         return render_template('index.html', color="#{:02x}{:02x}{:02x}".format(int(color[0]), int(color[1])
-                                                                                , int(color[2])), cmyk=cmyk,
-                               lab=lab, xyz=xyz), 200
+                                                                                , int(color[2])),
+                               changes=changed_colors, cmyk=cmyk, lab=lab, xyz=xyz), 200
 
 
 if __name__ == '__main__':
