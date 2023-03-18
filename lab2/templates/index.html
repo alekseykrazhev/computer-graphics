@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color-info application</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>Info about color in files</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Filename</th>
+          <th>Size</th>
+          <th>DPI</th>
+            <th>Mode</th>
+            <th>Compression</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for info in info_list %}
+        <tr>
+          <td>{{ loop.filename }}</td>
+          <td>{{ info.size }}</td>
+          <td>{{ info.dpi }}</td>
+            <td>{{ info.mode }}</td>
+            <td>{{ info.compression }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <!-- Bootstrap JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
