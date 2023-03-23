@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  color-info:
+    ports:
+      - "5000:5000"
+    build:
+      dockerfile: Dockerfile

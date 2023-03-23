@@ -12,49 +12,52 @@
 <body>
     <div class="container mt-5">
         <div>
-            <h1 class="float float-left">Color information for files in folder</h1>
+            <div class="float float-left">
+            <h1>Color information for files in folder<br></h1>
+            <h2>Folder size: {{ size }} MB</h2>
+            </div>
 
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle float float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle float float-right" type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Select folder
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="/default">Default (BMP)</a>
                     <a class="dropdown-item" href="/peliculas">JPG</a>
                     <a class="dropdown-item" href="/png">PNG</a>
-                    <a class="dropdown-item" href="#">Last</a>
+                    <a class="dropdown-item" href="/custom">Custom folder</a>
                 </div>
             </div>
-
         </div >
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Filename</th>
-                <th>Size</th>
-                <th>DPI</th>
-                <th>Mode</th>
-                <th>Depth</th>
-                <th>Compression</th>
-                <th>Degree</th>
-            </tr>
-        </thead>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Filename</th>
+                    <th>Size</th>
+                    <th>DPI</th>
+                    <th>Mode</th>
+                    <th>Depth</th>
+                    <th>Compression</th>
+                    <th>Degree</th>
+                </tr>
+            </thead>
 
-        <tbody>
-        {% for info in info_list %}
-        <tr>
-            <td>{{ info.filename }}</td>
-            <td>{{ info.size }}</td>
-            <td>{{ info.dpi }}</td>
-            <td>{{ info.mode }}</td>
-            <td>{{ info.depth }}</td>
-            <td>{{ info.compression }}</td>
-            <td>{{ info.degree }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <tbody>
+            {% for info in info_list %}
+            <tr>
+                <td>{{ info.filename }}</td>
+                <td>{{ info.size }}</td>
+                <td>{{ info.dpi }}</td>
+                <td>{{ info.mode }}</td>
+                <td>{{ info.depth }}</td>
+                <td>{{ info.compression }}</td>
+                <td>{{ info.degree }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 
   <!-- jQuery -->

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+  <title>Centered Input Field</title>
+</head>
+<body>
+  <div class="container">
+      <div class="row d-flex justify-content-center align-items-center mt-5">
+            <h1>Enter path to custom folder:</h1>
+      </div>
+    <div class="row d-flex justify-content-center align-items-center mt-5">
+      <div class="col-md-6">
+        <form id="myForm">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Enter text here" name="myInput">
+            <button class="btn btn-secondary" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Submit form using AJAX
+      $('#myForm').submit(function(event) {
+        // Prevent default form submission
+        event.preventDefault();
+
+        // Get form data
+        var formData = $(this).serialize();
+
+        // Send AJAX POST request
+        $.ajax({
+          type: 'POST',
+          url: '/submit',
+          data: formData,
+          success: function(response) {
+            alert(response);
+          },
+          error: function(xhr, status, error) {
+            alert('Error: ' + error.message);
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
