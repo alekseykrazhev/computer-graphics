@@ -1,40 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Color-info application</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Color-info application</title>
+    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
+
 <body>
-  <div class="container mt-5">
-    <h1>Info about color in files</h1>
+    <div class="container mt-5">
+        <div>
+            <h1 class="float float-left">Color information for files in folder</h1>
+
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle float float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Select folder
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/default">Default (BMP)</a>
+                    <a class="dropdown-item" href="/peliculas">JPG</a>
+                    <a class="dropdown-item" href="/png">PNG</a>
+                    <a class="dropdown-item" href="#">Last</a>
+                </div>
+            </div>
+
+        </div >
+
     <table class="table">
-      <thead>
-        <tr>
-          <th>Filename</th>
-          <th>Size</th>
-          <th>DPI</th>
-            <th>Mode</th>
-            <th>Compression</th>
-        </tr>
-      </thead>
-      <tbody>
+        <thead>
+            <tr>
+                <th>Filename</th>
+                <th>Size</th>
+                <th>DPI</th>
+                <th>Mode</th>
+                <th>Depth</th>
+                <th>Compression</th>
+                <th>Degree</th>
+            </tr>
+        </thead>
+
+        <tbody>
         {% for info in info_list %}
         <tr>
-          <td>{{ loop.filename }}</td>
-          <td>{{ info.size }}</td>
-          <td>{{ info.dpi }}</td>
+            <td>{{ info.filename }}</td>
+            <td>{{ info.size }}</td>
+            <td>{{ info.dpi }}</td>
             <td>{{ info.mode }}</td>
+            <td>{{ info.depth }}</td>
             <td>{{ info.compression }}</td>
+            <td>{{ info.degree }}</td>
         </tr>
         {% endfor %}
-      </tbody>
+        </tbody>
     </table>
-  </div>
+    </div>
+
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <!-- Popper.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <!-- Bootstrap JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 </body>
 </html>
