@@ -1,7 +1,7 @@
 import logging
 import os
 
-from PIL import Image, JpegImagePlugin
+from PIL import Image
 from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
@@ -81,6 +81,14 @@ def peliculas():
 def png():
     global folder
     folder = os.path.abspath('pictures/png')
+    logging.debug(f'PATH | {folder}')
+    return redirect(url_for('index'))
+
+
+@app.route('/big')
+def big():
+    global folder
+    folder = os.path.abspath('pictures/archive')
     logging.debug(f'PATH | {folder}')
     return redirect(url_for('index'))
 
