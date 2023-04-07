@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Images</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+		<h1>Input image index</h1>
+		<form id="myForm">
+			<div class="form-group">
+				<label for="inputField">Input Field:</label>
+				<input type="text" class="form-control" id="inputField" name="inputField">
+			</div>
+			<button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+		</form>
+	</div>
+    <br>
+    {% for image in images %}
+        <img src="{{ url_for('static', filename=image) }}" alt="{{ image }}">
+    {% endfor %}
+
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script>
+        const inputField = document.getElementById('inputField');
+        const submitButton = document.getElementById('submitButton');
+
+        submitButton.addEventListener('click', () => {
+            const inputValue = inputField.value;
+
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    inputField: inputValue
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                location.reload();
+            })
+            .catch(error => console.error(error));
+        });
+	</script>
+</body>
+</html>
