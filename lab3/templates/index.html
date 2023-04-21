@@ -1,27 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <title>Images</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/main.css">
 </head>
 <body>
     <div class="container">
-		<h1>Image Processing Methods</h1>
+		<h1>Input image index</h1>
 		<form id="myForm">
 			<div class="form-group">
-				<label for="inputField">Input image index:</label>
+				<label for="inputField">Input Field:</label>
 				<input type="text" class="form-control" id="inputField" name="inputField">
 			</div>
-			<button type="submit" class="btn btn-primary" id="submitButton">Show</button>
+			<button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
 		</form>
 	</div>
     <br>
-    <div class="maindiv">
-        {% for image in images %}
-            <img src="{{ url_for('static', filename=image) }}" alt="{{ image }}" class="picture">
-        {% endfor %}
-    </div>
+    {% for image in images %}
+        <img src="{{ url_for('static', filename=image) }}" alt="{{ image }}">
+    {% endfor %}
 
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

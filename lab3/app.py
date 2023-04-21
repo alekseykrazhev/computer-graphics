@@ -150,20 +150,15 @@ ind = 1
 @app.route('/', methods=['GET', 'POST'])
 def index():
     global ind
-
-    if request.method == 'GET':
-        if ind >= 113 or ind < 0:
-            return 'Index out of range!'
-        images = save_images(ind)
-        return render_template('index.html', images=images)
+    images = save_images(ind)
 
     if request.method == 'POST':
         ind = int(request.json['inputField'])
-        # print(ind)
-        if ind >= 113 or ind < 0:
-            return 'Index out of range!'
+        print(ind)
         images = save_images(ind)
-        return render_template('index.html', images=images)
+        return render_template('index.html', images = images)
+
+    return render_template('index.html', images=images)
 
 
 if __name__ == '__main__':

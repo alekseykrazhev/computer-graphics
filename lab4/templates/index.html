@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Simple methods</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <style>
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+  <div class="container mt-5">
+      <h1>Simple methods</h1>
+      <form id="example-form" method="POST">
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label for="method">Select method</label>
+                  <select class="form-control" id="method" name="method">
+                      <option value="">Select method...</option>
+                      <option value="step">Пошаговый</option>
+                      <option value="cda">ЦДА</option>
+                      <option value="brez">Брезенхем</option>
+                      <option value="okr">Брезенхем (окружность)</option>
+                  </select>
+              </div>
+              <div class="form-row" id="f_div">
+                  <div class="form-group col-md-6">
+                      <label for="x1">X1</label>
+                      <input type="text" class="form-control" id="x1" name="x1">
+                  </div>
+                  <div class="form-group col-md-6">
+                      <label for="x2">X2</label>
+                      <input type="text" class="form-control" id="x2" name="x2">
+                  </div>
+                  <div class="form-group col-md-6">
+                      <label for="y1">Y1</label>
+                      <input type="text" class="form-control" id="y1" name="y1">
+                  </div>
+                  <div class="form-group col-md-6">
+                      <label for="y2">Y2</label>
+                      <input type="text" class="form-control" id="y2" name="y2">
+                  </div>
+              </div>
+
+              <div class="hidden" id="hid">
+                  <label for="label1">Брезенхем (окружность)</label>
+                  <div class="form-row">
+                      <div class="form-group col-md-4">
+                          <label for="x">X</label>
+                          <input type="text" class="form-control" id="x" name="x">
+                      </div>
+                      <div class="form-group col-md-4">
+                          <label for="y">Y</label>
+                          <input type="text" class="form-control" id="y" name="y">
+                      </div>
+                      <div class="form-group col-md-4">
+                          <label for="r">R</label>
+                          <input type="text" class="form-control" id="r" name="r">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <button type="submit" class="btn btn-primary" name="submit1">Submit</button>
+      </form>
+  </div>
+
+  <div class="container mt-5">
+      <h1>Result:</h1>
+      <img src="../static/res/image.jpg" alt="Result">
+  </div>
+
+  <script>
+      const dropdown = document.getElementById("method");
+      const div = document.getElementById("hid");
+      const f_div = document.getElementById("f_div")
+      dropdown.addEventListener("change", function() {
+        if (dropdown.value === "okr") {
+          div.classList.remove("hidden");
+          f_div.classList.add("hidden")
+        } else {
+          div.classList.add("hidden");
+          f_div.classList.remove("hidden");
+        }
+      });
+    </script>
+
+  </body>
+</html>
