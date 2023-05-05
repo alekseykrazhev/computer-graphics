@@ -1,4 +1,5 @@
-from os import path
+from os import path, getenv
+from dotenv import load_dotenv
 
 from matplotlib.pyplot import savefig, subplots
 from matplotlib.patches import Rectangle
@@ -11,10 +12,11 @@ from algorithms import open_file, open_file1, liang_barsky, sutherland_hodgman
 
 
 UPLOAD_FOLDER = path.abspath('static/files')
+load_dotenv()
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = 'ALPDKCFVNSUVSDCJSDIOJCD6'
+app.secret_key = getenv('SECRET_KEY')
 
 
 def plot_lines_and_window(lines, window, clipped_lines):
