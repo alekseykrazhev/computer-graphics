@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Алгоритмы отсечения</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Алгоритмы отсечения</h1>
+    <form method="POST" action="/" enctype=multipart/form-data>
+        <h2>Файл для алгоритма Лианга-Барски</h2>
+        <div class="form-group">
+            <label for="file">Select file:</label>
+            <input class="form-control" type="file" name="file" id="file">
+        </div>
+        <h2>Файл для алгоритма Сазерленда-Ходжмана</h2>
+        <div class="form-group">
+            <label for="file1">Select file:</label>
+            <input class="form-control" type="file" name="file1" id="file1">
+        </div>
+        <button class="btn btn-primary" type="submit" value="Upload">Send files</button>
+    </form>
+</div>
+
+<div class="container mt-5">
+    {% if image %}
+    <h2>Результат</h2>
+    <img src="data:image/png;base64,{{ image }}" alt="Результат">
+    {% endif %}
+    {% if image1 %}
+    <h2>Результат</h2>
+    <img src="data:image/png;base64,{{ image1 }}" alt="Результат">
+    {% endif %}
+</div>
+</body>
+</html>
